@@ -1,9 +1,4 @@
-## 多线程并发编程学习笔记
-
-> Notes: 等把大概的体系知识学习完毕后会整理成gitpages格式方便查看
-> 扫描类路径并生成gitbook的目录格式代码位于test/java目录下【GenerateDirectoryStructure类】
-
-## 目录
+# Java并发笔记
 * [线程的基础知识]()
   * [线程的生命周期](src/main/resources/线程的基础知识/01_线程的生命周期.md)
   * [线程的创建](src/main/resources/线程的基础知识/02_线程的创建.md)
@@ -57,3 +52,4 @@
     * [LinkedBlockingQueue](src/main/resources/J.U.C并发包知识/11_BlockingQueue/03_LinkedBlockingQueue.md)
     * [SynchronousQueue](src/main/resources/J.U.C并发包知识/11_BlockingQueue/04_SynchronousQueue.md)
     * [DelayQueue](src/main/resources/J.U.C并发包知识/11_BlockingQueue/05_DelayQueue.md)
+
