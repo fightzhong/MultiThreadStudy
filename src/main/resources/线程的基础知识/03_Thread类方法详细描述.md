@@ -41,16 +41,18 @@ Thread.currentThread().setUncaughtExceptionHandler( (thread, ex) -> {
 } ): 用于捕捉线程的错误信息(防止其输出到控制台)
 ```
 
-## wait和sleep方法的区别
+## wait, notify, notifyAll, sleep详解
 ```
-<1> 可以通过调用wait(millis)来达到等待一段时间的效果, 但是wait是采用wait()方法的形式来使用的, 而
-    通过该方式就是让线程一直等待下去, 直到其它线程能够唤醒它
-<2> wait方法必须要有锁的支持, 即必须在同步代码块或者同步方法内才行, 并且调用该方法必须是该同步锁来
-    调用, 否则会出现IllegalMonitorStateException异常, 而sleep是Thread类的静态方法, 所以其可以
-    直接调用, 不需要锁的参与
-<3> wait方法在调用时会释放自己持有的对应的锁, 比如LOCK.wait()释放的就是LOCK锁, 而sleep方法是不会
-    释放锁的, 在其休眠结束前会一直持有该锁, 并且wait()方法必须由其它线程执行LOCK.notify()或者
-    LOCK.notifyAll()方法来唤醒它
+<1> 根据javadoc文档描述, wait方法是Object的方法, 在线程内部调用任意对象的wait方法, 必须持有该对
+    象的监视器, 否则会抛出IllegalMonitorStateException异常, 调用wait方法会导致线程进入WAITING状
+    态, 此时会释放该对象的监视器, 直到一定的时间或者被其它线程调用了notify方法后才能被唤醒, 从而可
+    以重新争夺监视器, 调用了wait方法后会进入到该对象的等待集合中(waiting set)
+<2> notify方法的调用也是需要当前线程持有该对象的监视器, 调用该方法会唤醒该对象的等待队列中的一个线
+    程, notifyAll会唤醒所有在等待队列中的线程
+<3> 根据notify方法javadoc描述, 线程持有一个对象的监视器只会发生在以下三种情况, 情况一是对象的方法
+    被synchronized关键字修饰, 情况二是线程执行到了synchronized同步块中, 情况三是synchronized关键
+    字修饰的静态方法
+<4> sleep方法是Thread类的方法, 该方法会使得线程进入TIME-WAITING状态, 此时不会释放任何监视器
 ```
 
 ## 线程组ThreadGroup
