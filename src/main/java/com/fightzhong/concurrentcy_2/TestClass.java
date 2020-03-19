@@ -1,26 +1,43 @@
 package com.fightzhong.concurrentcy_2;
 
+import com.fightzhong.concurrentcy_2.queue.ArrayBlockingQueue;
+
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class TestClass {
-	private static int num = 0;
-
+	private static Random random = new Random();
 	public static void main (String[] args) {
-		new Thread( () -> {
-			System.out.println( "开始执行死循环" );
-			while ( num == 0 );
-			System.out.println( "结束执行死循环" );
-		} ).start();
+		ArrayBlockingQueue queue = new ArrayBlockingQueue();
+		for ( int i = 0; i < 28; i ++ ) {
+			new Thread( () -> {
+				// while ( true ) {
+					queue.put();
+					try {
+						Thread.sleep( random.nextInt( 1000 ) );
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				// }
+			} ).start();
+		}
 
-		new Thread( () -> {
-			System.out.println( "开始休眠" );
-			try {
-				Thread.sleep( 3000 );
-				num = 1;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			System.out.println( "结束休眠" );
-		} ).start();
+		for ( int i = 0; i < 30; i ++ ) {
+			new Thread( () -> {
+				// while ( true ) {
+					queue.take();
+					try {
+						Thread.sleep( random.nextInt( 1000 ) );
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				// }
+			} ).start();
+		}
+
+
 	}
 }
